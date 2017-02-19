@@ -1,0 +1,13 @@
+<% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<% @payments.each do |transaction|%>
+  <button class="accordion"><%= transaction.title %> - $<%= "%.2f" % transaction.amt %></button>
+  <div class="panel">
+    <h3><%= transaction.desc %></h3>
+    <p>In favor: <%= get_up_percent transaction %>
+      <%= link_to "Approve", user_transactions_vote_path(payid:transaction.id, uid:@uid, val:1), :id=>"upvote-btn", :class=>"vote up"%></p>
+    <p>Against: <%= get_down_percent transaction %>
+      <%= link_to "Disapprove", user_transactions_vote_path(payid:transaction.id, uid:@uid, val:-1), :id=>"downvote-btn", :class=>"vote down"%></p>
+  </div>
+<% end %>
